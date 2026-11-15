@@ -17,8 +17,11 @@ import {
   FaCode,
   FaShieldAlt,
   FaNetworkWired,
+  FaMoneyBill,
 } from 'react-icons/fa'
 
+import {LuCakeSlice } from 'react-icons/lu'
+import { FaMagnifyingGlass } from 'react-icons/fa6'
 const CURRENT_YEAR = new Date().getFullYear()
 
 function App() {
@@ -330,6 +333,45 @@ function App() {
             >
               Discuss a Project &rarr;
             </a>
+          </Card>
+
+          {/* 7. Projects Card */}
+          <Card 
+            title="Projects"
+            className="md:col-span-3"
+          >
+            <p className="text-sm text-text-600">
+              Here you can find a selection of my recent projects, ranging from web applications to open-source tools.
+            </p>
+
+            <ul className="space-y-2 mt-1">
+              <li className="mb-2 bg-background-200/50 p-3 rounded-lg border border-secondary-200/60">
+                <div className="text-primary-500 flex">
+                  <FaMagnifyingGlass className="mr-2 mt-1" />
+                  <a href="https://github.com/trentunderscore/BinOcular" className="hover:underline">BinOcular</a>
+                  <span className="text-text-500 text-xs ml-2 mt-1"> Automated static binary analysis and firmware triage workbench.</span>
+                </div>
+              </li>
+
+
+              <li className="mb-2 bg-background-200/50 p-3 rounded-lg border border-secondary-200/60">
+                <div className="text-primary-500 flex">
+                  <FaMoneyBill className="mr-2 mt-1" />
+                  <a href="https://github.com/FBLACOMPBG2024/SmartSpend" className="hover:underline">SmartSpend</a>
+                  <span className="text-text-500 text-xs ml-2 mt-1"> Personal finance management and budgeting application that qualified to compete nationally in 2024.</span>
+                </div>
+              </li>
+
+              <li className="mb-2 bg-background-200/50 p-3 rounded-lg border border-secondary-200/60">
+                <div className="text-primary-500 flex">
+                  <LuCakeSlice className="mr-2 mt-1" />
+                  <a href="https://www.theaccidentalcheesecakecompany.com/" className="hover:underline">The Accidental Cheesecake Company Website</a>
+                  <span className="text-text-500 text-xs ml-2 mt-1"> Light-weight easy to modify website to fit the needs of a local business.</span>
+                </div>
+              </li>
+
+
+            </ul>
           </Card>
         </main>
 
