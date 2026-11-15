@@ -118,14 +118,14 @@ function App() {
                 <span className="text-text-900 font-semibold">TypeScript, React, and Python</span>, and
                 have delivered custom digital solutions for{' '}
 
-              <a
-                href="https://www.barnbabyart.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-text-900 font-semibold hover:underline"
-              >
-                local small businesses
-              </a>
+                <a
+                  href="https://www.barnbabyart.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-text-900 font-semibold hover:underline"
+                >
+                  local small businesses
+                </a>
               </p>
             </div>
 
@@ -158,12 +158,11 @@ function App() {
                 <FaYoutube className="text-[#ff0000]" size={16} />
                 <span>YouTube</span>
               </a>
-              <a
-                href="mailto:me@trents.site"
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium bg-primary-500 hover:bg-primary-600 text-primary-50 transition ml-auto"
+              <a href="mailto:me@trents.site"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-medium bg-background-200/70 hover:bg-background-300/80 text-text-900 transition"
               >
                 <FaEnvelope size={14} />
-                <span>Get in Touch</span>
+                <span>Email</span>
               </a>
             </div>
           </Card>
@@ -326,7 +325,7 @@ function App() {
             </div>
 
             <a
-                href="mailto:me@trents.site"
+              href="mailto:me@trents.site"
               className="mt-4 w-full py-2 px-3 text-center rounded-lg bg-primary-500 hover:bg-primary-600 text-primary-50 text-sm font-medium transition block"
             >
               Discuss a Project &rarr;
