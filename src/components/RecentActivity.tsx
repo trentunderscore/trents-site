@@ -85,6 +85,9 @@ export default function RecentActivity({
           ['PublicEvent', 'PushEvent', 'CreateEvent', 'WatchEvent', 'ForkEvent', 'PullRequestEvent'].includes(e.type)
         )
 
+        // Sort by date descending
+        relevantEvents.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+
         setEvents(relevantEvents)
         sessionStorage.setItem(
           `gh_events_${username}`,
