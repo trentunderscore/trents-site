@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Card from './Card'
-import { FaCodeBranch, FaStar, FaGitAlt, FaBookOpen } from 'react-icons/fa'
+import { FaCodeBranch, FaStar, FaGitAlt, FaBookOpen, FaPlus } from 'react-icons/fa'
 
 interface GitHubEvent {
   id: string
@@ -29,7 +29,7 @@ interface RecentActivityProps {
 function timeAgo(dateString: string): string {
   const date = new Date(dateString)
   const now = new Date()
-  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+  const seconds = Math.max(0, Math.floor((now.getTime() - date.getTime()) / 1000))
 
   if (seconds < 60) return 'just now'
   const minutes = Math.floor(seconds / 60)
@@ -46,7 +46,7 @@ function getCachedEvents(username: string): GitHubEvent[] | null {
     const cached = sessionStorage.getItem(`gh_events_${username}`)
     if (!cached) return null
     const { data, timestamp } = JSON.parse(cached)
-    if (Date.now() - timestamp < 5 * 60 * 1000) {
+    if (Date.now() - timestamp < 5 * 60 * 1000 && Array.isArray(data)) {
       return data
     }
     sessionStorage.removeItem(`gh_events_${username}`)
@@ -61,31 +61,45 @@ export default function RecentActivity({
   className = '',
   limit = 4,
 }: RecentActivityProps) {
-  const [events, setEvents] = useState<GitHubEvent[]>(() => getCachedEvents(username) ?? [])
-  const [loading, setLoading] = useState<boolean>(() => getCachedEvents(username) === null)
+  const [initialCached] = useState(() => getCachedEvents(username))
+  const [events, setEvents] = useState<GitHubEvent[]>(() => initialCached ?? [])
+  const [loading, setLoading] = useState<boolean>(() => initialCached === null)
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    if (getCachedEvents(username)) return
+    if (initialCached) return
 
-    fetch(`https://api.github.com/users/${username}/events/public?per_page=10`)
+    const controller = new AbortController()
+
+    // Fetch 30 events so filtering still leaves enough items to satisfy `limit`
+    fetch(`https://api.github.com/users/${username}/events/public?per_page=30`, {
+      signal: controller.signal,
+    })
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch')
         return res.json()
       })
-      .then((data: GitHubEvent[]) => {
-        const relevantEvents = data.filter((e) =>
-          ['PushEvent', 'CreateEvent', 'WatchEvent', 'ForkEvent', 'PullRequestEvent'].includes(e.type)
+      .then((data) => {
+        const eventsArray: GitHubEvent[] = Array.isArray(data) ? data : []
+        const relevantEvents = eventsArray.filter((e) =>
+          ['PublicEvent', 'PushEvent', 'CreateEvent', 'WatchEvent', 'ForkEvent', 'PullRequestEvent'].includes(e.type)
         )
+
         setEvents(relevantEvents)
         sessionStorage.setItem(
           `gh_events_${username}`,
           JSON.stringify({ data: relevantEvents, timestamp: Date.now() })
         )
       })
-      .catch(() => setError(true))
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          setError(true)
+        }
+      })
       .finally(() => setLoading(false))
-  }, [username])
+
+    return () => controller.abort()
+  }, [username, initialCached])
 
   const renderEventDescription = (event: GitHubEvent) => {
     const repoShortName = event.repo.name.replace(`${username}/`, '')
@@ -105,11 +119,18 @@ export default function RecentActivity({
           </>
         )
       }
-      case 'CreateEvent': {
-        const type = event.payload.ref_type || 'branch'
+      case 'PublicEvent':
         return (
           <>
-            <span>Created {type} in </span>
+            <span>Open-sourced </span>
+            <span className="font-medium text-text-900">{repoShortName}</span>
+          </>
+        )
+      case 'CreateEvent': {
+        const isRepo = event.payload.ref_type === 'repository'
+        return (
+          <>
+            <span>{isRepo ? 'Created repository ' : `Created ${event.payload.ref_type || 'branch'} in `}</span>
             <span className="font-medium text-text-900">{repoShortName}</span>
           </>
         )
@@ -118,7 +139,7 @@ export default function RecentActivity({
         return (
           <>
             <span>Starred </span>
-            <span className="font-medium text-text-900">{event.repo.name}</span>
+            <span className="font-medium text-text-900">{repoShortName}</span>
           </>
         )
       case 'PullRequestEvent':
@@ -146,6 +167,8 @@ export default function RecentActivity({
         return <FaStar className="text-accent-500 mt-1 shrink-0" />
       case 'CreateEvent':
         return <FaBookOpen className="text-secondary-500 mt-1 shrink-0" />
+      case 'PublicEvent':
+        return <FaPlus className="text-primary-500 mt-1 shrink-0" />
       default:
         return <FaCodeBranch className="text-text-400 mt-1 shrink-0" />
     }

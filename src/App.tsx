@@ -95,7 +95,14 @@ function App() {
                   <span>Rolla, Missouri</span>
                 </a>
                 , pursuing Information Science & Technology at{' '}
-                <span className="text-text-900 font-semibold">Missouri S&T</span>.
+                <a
+                  href="https://www.mst.edu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-text-900 font-semibold hover:underline"
+                >
+                  Missouri S&T
+                </a>
               </p>
 
               <p>
@@ -103,13 +110,22 @@ function App() {
                 <span className="text-text-900 font-semibold">C# & .NET</span> for over six years.
                 My interests center on{' '}
                 <span className="text-text-900 font-semibold">reverse engineering and low-level systems</span>
-                —understanding machine execution, memory structures, and runtime internals from the ground up.
+                , understanding machine execution, memory structures, and runtime internals from the ground up.
               </p>
 
               <p>
                 In addition to systems programming, I build full-stack web applications with{' '}
                 <span className="text-text-900 font-semibold">TypeScript, React, and Python</span>, and
-                have delivered custom digital solutions for local small businesses.
+                have delivered custom digital solutions for{' '}
+
+              <a
+                href="https://www.barnbabyart.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-900 font-semibold hover:underline"
+              >
+                local small businesses
+              </a>
               </p>
             </div>
 
@@ -240,7 +256,7 @@ function App() {
                   <FaCode className="text-primary-500" /> Languages & Frameworks
                 </span>
                 <div className="flex flex-wrap gap-1.5">
-                  {['C#', '.NET', 'TypeScript', 'React', 'Python', 'C++', 'SQL'].map((skill) => (
+                  {['C#', '.NET', 'TypeScript', 'React', 'Python', 'C++', 'MongoDB', 'PocketBase'].map((skill) => (
                     <span
                       key={skill}
                       className="px-2.5 py-1 text-xs rounded-md bg-background-200/70 text-text-800 font-medium border border-secondary-200/50"
@@ -277,7 +293,7 @@ function App() {
                   <FaShieldAlt className="text-accent-600" /> Cybersecurity & Tools
                 </span>
                 <div className="flex flex-wrap gap-1.5">
-                  {['Cybersecurity', 'Git / GitHub', 'Vite', 'PostCSS'].map((skill) => (
+                  {['Cybersecurity', 'Git / GitHub', 'Docker', 'Visual Studio', 'JetBrains IDEs', 'x64dbg', 'IDA Pro', 'REST APIs', 'Postman'].map((skill) => (
                     <span
                       key={skill}
                       className="px-2.5 py-1 text-xs rounded-md bg-accent-100/70 text-accent-800 font-medium border border-accent-200/50"
