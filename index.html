@@ -2,22 +2,45 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>trents.site | Trent Calvin</title>
+
+  <!-- Theme Initialization (runs before paint to prevent flash of unstyled content) -->
   <script>
     (function () {
-      const stored = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (stored === 'dark' || (!stored && prefersDark)) {
-        document.documentElement.classList.add('dark');
+      try {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {
+        // Fallback if localStorage is restricted
       }
     })();
   </script>
-  <meta charset="UTF-8" />
+
+  <!-- Primary Meta Tags -->
+  <meta name="description" content="trents.site - A modern web development portfolio by Trent Calvin." />
+  <meta name="keywords" content="Trent Calvin, trents.site, portfolio, web development, software engineer" />
+  <meta name="author" content="Trent Calvin" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Browser & PWA Theme Colors -->
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>trents.site</title>
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trents.site/" />
+  <meta property="og:title" content="trents.site | Trent Calvin" />
+  <meta property="og:description" content="trents.site - A modern web development portfolio by Trent Calvin." />
+  <meta property="og:image" content="https://trents.site/og-image.png" />
 </head>
 
-<body>
+<body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 antialiased">
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
